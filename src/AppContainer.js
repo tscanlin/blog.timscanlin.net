@@ -10,7 +10,7 @@ import Content from "./components/Content"
 import Footer from "./components/Footer"
 
 const AppContainer = (props) => (
-  <Container>
+  <Container className="app-container">
     <DefaultHeadMeta />
     <Header />
     <Content>

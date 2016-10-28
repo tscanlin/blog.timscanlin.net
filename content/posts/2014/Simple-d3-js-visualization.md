@@ -167,6 +167,6 @@ document.ontouchstart = transition;
 
 And finally, we call the transition function to make our initial lines appear and then assign it to execute again with clicks or touches to the document.
 
-Hope you enjoyed the tutorial! [Check out the final product](/demos/visualization.html).
+Hope you enjoyed the tutorial! [Check out the final product](http://tscanlin.github.io/timscanlin-demos/visualization.html).
 
 Or go get the [source on Github](https://github.com/tscanlin/timscanlin-demos).

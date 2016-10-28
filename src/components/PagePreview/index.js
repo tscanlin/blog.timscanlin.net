@@ -5,13 +5,13 @@ const PagePreview = ({ __url, title, date }) => {
   const pageDate = date ? new Date(date) : null
 
   return (
-    <div>
-      <Link to={ __url }>
+    <div className="mb3">
+      <Link className="f3" to={ __url }>
         { title }
       </Link>
       {
         pageDate &&
-        <small>
+        <small className="db">
           { " " }
           <time key={ pageDate.toISOString() }>
             { pageDate.toDateString() }

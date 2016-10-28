@@ -42,13 +42,14 @@ const Page = (
   ]
 
   return (
-    <div className={ styles.page }>
+    <div className="mw6 center">
       <Helmet
         title={ metaTitle }
         meta={ meta }
       />
       {
         head.title &&
+        !head.hideTitle &&
         <h1 className={ styles.heading }>{ head.title }</h1>
       }
       { header }

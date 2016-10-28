@@ -8,7 +8,7 @@ const PagesList = ({ pages }) => {
       {
       pages.length
       ? (
-        <ul>
+        <ul className="list pl0">
           {
           pages.map((page) => (
             <li key={ page.title }><PagePreview { ...page } /></li>
