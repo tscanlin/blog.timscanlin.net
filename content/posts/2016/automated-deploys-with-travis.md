@@ -16,7 +16,8 @@ I also suggest limiting concurrent builds to 1 in the repo's Travis settings so 
 4. `travis-encrypt -r [repository slug] GITHUB_TOKEN=[personal access token]` repository slug includes your username.
 
 
-5. Then setup your .travis.yml:
+5. Then setup your .travis.yml file, you need to changes the `GITHUB_REPO` and `secure` options.
+
 ```yaml
 language: node_js
 node_js:
