@@ -1,12 +1,10 @@
 import React, { PropTypes } from "react"
 import { Link } from "react-router"
+import { formatDatestring } from "../../utils/date"
 
 const PagePreview = ({ __url, title, date }) => {
   const pageDate = date ? new Date(date) : null
-  let datestring = pageDate.toDateString()
-  datestring = datestring.split(' ')
-  datestring.shift()
-  datestring = datestring.join(' ')
+  let datestring = formatDatestring(pageDate)
 
   return (
     <div className="mb3">

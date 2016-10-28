@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - "6.9"
+sudo: false
+branches:
+  only:
+    - master
+install:
+- npm install
+script:
+- npm run build
+after_success:
+- bash ./travis-deploy.sh
+env:
+  global:
+    - GITHUB_REPO: tscanlin/blog.timscanlin.net
+    - secure: [result from travis-encrypt command]
