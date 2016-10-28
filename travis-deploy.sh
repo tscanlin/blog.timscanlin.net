@@ -2,6 +2,9 @@
 # See https://medium.com/@nthgergo/publishing-gh-pages-with-travis-ci-53a8270e87db
 set -o errexit
 
+# Options.
+DIST_DIRECTORY=dist
+
 # Info.
 echo "Running deploy script"
 echo "Branch: $TRAVIS_BRANCH"
@@ -29,7 +32,7 @@ git config --global user.name "Travis CI"
 # Build steps (taken care of beforehand)
 
 # Deploy.
-cd build
+cd $DIST_DIRECTORY
 git init
 git add .
 git commit -m "Deploy to Github Pages"
