@@ -20,7 +20,7 @@ I also suggest limiting concurrent builds to 1 in the repo's Travis settings so 
 ```yaml
 language: node_js
 node_js:
-  - "4.1"
+  - "6.9"
 sudo: false
 branches:
   only:
