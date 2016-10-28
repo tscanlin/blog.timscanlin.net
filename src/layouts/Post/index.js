@@ -1,10 +1,12 @@
 import React, { PropTypes } from "react"
 
 import Page from "../Page"
+import { formatDatestring } from "../../utils/date"
 
 const Post = (props) => {
   // it's up to you to choose what to do with this layout ;)
   const pageDate = props.head.date ? new Date(props.head.date) : null
+  const datestring = formatDatestring(pageDate)
 
   return (
     <Page
@@ -14,7 +16,7 @@ const Post = (props) => {
           {
           pageDate &&
           <time key={ pageDate.toISOString() }>
-            { pageDate.toDateString() }
+            { datestring }
           </time>
         }
         </header>
