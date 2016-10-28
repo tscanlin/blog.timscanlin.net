@@ -1,4 +1,4 @@
-# [Phenomic](https://github.com/MoOx/phenomic) phenomic-theme-base
+# [blog.timscanlin.net](http://blog.timscanlin.net)
 
 ## Install dependencies
 

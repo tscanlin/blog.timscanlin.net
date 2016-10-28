@@ -3,6 +3,10 @@ import { Link } from "react-router"
 
 const PagePreview = ({ __url, title, date }) => {
   const pageDate = date ? new Date(date) : null
+  let datestring = pageDate.toDateString()
+  datestring = datestring.split(' ')
+  datestring.shift()
+  datestring = datestring.join(' ')
 
   return (
     <div className="mb3">
@@ -14,7 +18,7 @@ const PagePreview = ({ __url, title, date }) => {
         <small className="db">
           { " " }
           <time key={ pageDate.toISOString() }>
-            { pageDate.toDateString() }
+            { datestring }
           </time>
         </small>
       }

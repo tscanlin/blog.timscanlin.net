@@ -2,6 +2,5 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image: -webkit-linear-gradient(bottom, #F4F4FA 0%, #F0F3F1 100%);
-  background-image: linear-gradient(to top, #F4F4FA 0%, #F0F3F1 100%);
+  background-color: #F4F4FA;
 }
