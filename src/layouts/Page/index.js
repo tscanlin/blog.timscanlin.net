@@ -3,8 +3,6 @@ import Helmet from "react-helmet"
 import invariant from "invariant"
 import { BodyContainer, joinUri } from "phenomic"
 
-import styles from "./index.css"
-
 const Page = (
   {
     __filename,
@@ -50,7 +48,7 @@ const Page = (
       {
         head.title &&
         !head.hideTitle &&
-        <h1 className={ styles.heading }>{ head.title }</h1>
+        <h1>{ head.title }</h1>
       }
       { header }
       <BodyContainer>{ body }</BodyContainer>
