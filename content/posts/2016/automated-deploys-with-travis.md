@@ -80,4 +80,4 @@ git push --force --quiet "https://${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git"
 
 7. Also, make the `gh-pages` branch on github before running the above script from travis-ci just to be safe.
 
-This will deploy to the gh-pages branch on any commits into master as long as the build finishes successfully [even if not done through a pull request in case of emergencies ;)]. On pull requests, travis will still try and build the branch to make sure that succeeds, but it won't push any of the changes to gh-pages branch.
+This will deploy to the gh-pages branch on any commits into master as long as the build finishes successfully [even if not done through a pull request in case of emergencies ;)]. On pull requests, travis will still try and build the branch to make sure that succeeds, but it won't push any of the changes to gh-pages branch. 
