@@ -1,5 +1,5 @@
 ---
-title: Login bash script
+title: Login Bash Script
 layout: Post
 date: 2015-09-30
 paths:
