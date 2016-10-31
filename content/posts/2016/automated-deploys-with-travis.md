@@ -4,16 +4,16 @@ layout: Post
 date: 2016-10-28
 ---
 
-Using [travis-ci](https://travis-ci.org/) is a great way to automate repetitive tasks like building and testing your projects. But recently I've been using it to automate deployments to github pages and it's been great. Here's the steps I followed:
+Using [Travis CI](https://travis-ci.org/) is a great way to automate repetitive tasks like building and testing your projects. But recently I've been using it to automate deployments to github pages and it's been great. I have read a [few](https://medium.com/@nthgergo/publishing-gh-pages-with-travis-ci-53a8270e87db#.2mit50e96) [tutorials](https://gist.github.com/domenic/ec8b0fc8ab45f39403dd) [that](http://www.steveklabnik.com/automatically_update_github_pages_with_travis_example/) outlined similar steps, but they didn't quite have the results I wanted so I decided to write my own. To automate deploying to github pages with [Travis](https://travis-ci.org/), here's the steps I followed:
 
-1. [Get a personal access token from github.com](https://github.com/settings/tokens)
+1. [Get a personal access token from github.com](https://github.com/settings/tokens) Note: You only get to see this key once.
 
 2. Setup your repository in Travis (at https://travis-ci.org/)
 I also suggest limiting concurrent builds to 1 in the repo's Travis settings so that builds run sequentially.
 
-3. `npm install travis-encrypt` (https://www.npmjs.com/package/travis-encrypt)
+3. `npm install -g travis-encrypt` (https://www.npmjs.com/package/travis-encrypt)
 
-4. `travis-encrypt -r [repository slug] GITHUB_TOKEN=[personal access token]` repository slug includes your username.
+4. `travis-encrypt -r [repository slug] GITHUB_TOKEN=[personal access token]` Note: The repository slug includes your username.
 
 
 5. Then setup your .travis.yml file, you need to changes the `GITHUB_REPO` and `secure` options.
@@ -39,9 +39,9 @@ env:
 ```
 
 6. And include the travis-deploy script:
+
 ```sh
 #!/bin/bash
-# See https://medium.com/@nthgergo/publishing-gh-pages-with-travis-ci-53a8270e87db
 set -o errexit
 
 # Info.
@@ -81,3 +81,5 @@ git push --force --quiet "https://${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git"
 7. Also, make the `gh-pages` branch on github before running the above script from travis-ci just to be safe.
 
 This will deploy to the gh-pages branch on any commits into master as long as the build finishes successfully [even if not done through a pull request in case of emergencies ;)]. On pull requests, travis will still try and build the branch to make sure that succeeds, but it won't push any of the changes to gh-pages branch.
+
+See this in action in the github repo for this blog at  [https://github.com/tscanlin/blog.timscanlin.net](https://github.com/tscanlin/blog.timscanlin.net)
