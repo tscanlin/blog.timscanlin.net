@@ -12,10 +12,10 @@ const Header = () => (
   <header>
     <nav
         style={{ backgroundColor: "rgba(250,250,255,0)" }}
-        className="mw8 center tc pv2"
+        className="mw8 center tc pv3"
       >
       <div className="dib w-100 pa2">
-        <Link className="f2 no-underline" to="/">
+        <Link className="f2 no-underline black" to="/">
           { "Tim Scanlin" }
         </Link>
       </div>

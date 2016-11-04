@@ -16,7 +16,6 @@ const Homepage = (props, { collection }) => {
 
   return (
     <Page { ...props }>
-      <h2>{ "Posts" }</h2>
       <PagesList pages={ latestPosts } />
     </Page>
   )
