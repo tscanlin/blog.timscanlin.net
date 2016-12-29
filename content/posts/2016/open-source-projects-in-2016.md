@@ -20,7 +20,7 @@ Tocbot was featured in JS Weekly issue #283 and HTML Weekly (now Frontend Focus)
 
 Note: These are both run by the same guy, Peter Cooper. Check out [his website](http://peterc.org/) and subscribe to the above newsletters if you are interested in web development.
 
-Tocbot has 140 stars as of 12/27/2016. I am glad that it provides simple but useful functionality without needing a lot of dependencies.
+Tocbot has 122 stars as of 12/27/2016. I am glad that it provides simple but useful functionality without needing a lot of dependencies.
 
 ## Serverless S3 crud
 
