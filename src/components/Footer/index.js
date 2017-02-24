@@ -4,7 +4,10 @@ const Footer = () => {
   const now = new Date()
 
   return (
-    <footer className="tc">
+    <footer className="center w5 f6 tc bt b--light-gray mt4">
+      <p>
+        <a href="/feed.xml">feed</a>
+      </p>
       <p>
         <span>&copy; </span>
         <span>{now.getFullYear()} </span>
