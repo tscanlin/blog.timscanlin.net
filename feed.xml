@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[blog-timscanlin-net]]></title><description><![CDATA[blog-timscanlin-net]]></description><link>http://blog.timscanlin.net</link><generator>RSS for Node</generator><lastBuildDate>Fri, 24 Feb 2017 05:24:03 GMT</lastBuildDate><atom:link href="http://blog.timscanlin.net/feed.xml" rel="self" type="application/rss+xml"/><item><title><![CDATA[Open Source Projects in 2016]]></title><description><![CDATA[<p>2016 has been full of many ups and downs, but at least I was able to launch a couple of small open source projects this year. The projects are called <a href="http://tscanlin.github.io/tocbot/">Tocbot</a> and <a href="https://github.com/tscanlin/serverless-s3-crud">serverless-s3-crud</a>, try to guess what they do and read below to hear more about them. Hopefully people find them useful and build cool stuff with them.</p>
+<h2 id="tocbot"><a href="#tocbot" class="phenomic-HeadingAnchor">#</a>Tocbot</h2>
+<p><a href="http://tscanlin.github.io/tocbot/">Tocbot</a> was first created on 3/22/2016. The idea for it came to me when I wanted a table of contents with jump links for navigating long pages with a lot of text. I found a library called <a href="http://gregfranko.com/jquery.tocify.js/">Tocify</a> that worked and basically did what I wanted, but I didn't like that it had dependencies on jQuery AND jQuery UI which are huge, and it was also no longer actively maintained; so I decided to write my own library with no jQuery dependencies that used native DOM methods instead. The result is Tocbot, which is currently used on <a href="https://developers.optimizely.com/x/solutions/javascript/reference/">Optimizely's developer documentation</a> and also used on <a href="http://tscanlin.github.io/tocbot/">Tocbot's webpage</a>.</p>
+<p>Tocbot was featured in JS Weekly issue #283 and HTML Weekly (now Frontend Focus) issue #239 which was awesome. You can still read them <a href="http://javascriptweekly.com/issues/283">here</a> and <a href="http://frontendfocus.co/issues/239">here</a> (respectively).</p>
+<p><img src="/assets/images/tocbot-js-weekly-283-highlighted.png" alt="tocbot js weekly">
+<em>JS Weekly</em></p>
+<p><img src="/assets/images/tocbot-html5-weekly-239-highlighted.png" alt="tocbot html5 weekly">
+<em>HTML5 Weekly</em></p>
+<p>Note: These are both run by the same guy, Peter Cooper. Check out <a href="http://peterc.org/">his website</a> and subscribe to the above newsletters if you are interested in web development.</p>
+<p>Tocbot has 122 stars as of 12/27/2016. I am glad that it provides simple but useful functionality without needing a lot of dependencies.</p>
+<h2 id="serverless-s3-crud"><a href="#serverless-s3-crud" class="phenomic-HeadingAnchor">#</a>Serverless S3 crud</h2>
+<p><a href="https://github.com/tscanlin/serverless-s3-crud">Serverless-s3-crud</a> is my most recent project, it was first started on 11/15/2016. It is a service meant to be used with <a href="https://serverless.com/">Serverless</a> and now it is currently listed as the third service in the <a href="https://github.com/serverless/serverless#services-v10">services section of their README</a>. It does exactly what you would expect, it provides a serverless crud REST API for interacting with S3. There was already a <a href="https://github.com/pmuens/serverless-crud">serverless-crud</a> project which is similar but backed by Dynamo DB instead. I definitely plan to make use of this in future projects and I hope other people find it useful as well.</p>
+<p>Go check out <a href="http://tscanlin.github.io/tocbot/">Tocbot</a> and <a href="https://github.com/tscanlin/serverless-s3-crud">serverless-s3-crud</a> if you haven't already and <a href="https://twitter.com/tim_scanlin">tweet @ me</a> or open an issue on github if you have any feedback.</p>
+]]></description><link>http://blog.timscanlin.net/posts/2016/open-source-projects-in-2016/</link><guid isPermaLink="true">http://blog.timscanlin.net/posts/2016/open-source-projects-in-2016/</guid><pubDate>Tue, 27 Dec 2016 00:00:00 GMT</pubDate></item><item><title><![CDATA[Automated Deploys With Travis]]></title><description><![CDATA[<p>Using <a href="https://travis-ci.org/">Travis CI</a> is a great way to automate repetitive tasks like building and testing your projects. But recently I've been using it to automate deployments to github pages and it's been great. I have read a <a href="https://medium.com/@nthgergo/publishing-gh-pages-with-travis-ci-53a8270e87db#.2mit50e96">few</a> <a href="https://gist.github.com/domenic/ec8b0fc8ab45f39403dd">tutorials</a> <a href="http://www.steveklabnik.com/automatically_update_github_pages_with_travis_example/">that</a> outlined similar steps, but they didn't quite have the results I wanted so I decided to write my own. To automate deploying to github pages with <a href="https://travis-ci.org/">Travis</a>, here's the steps I followed:</p>
+<ol>
+<li>
+<p><a href="https://github.com/settings/tokens">Get a personal access token from github.com</a> Note: You only get to see this key once.</p>
+</li>
+<li>
+<p>Setup your repository in Travis (at <a href="https://travis-ci.org/">https://travis-ci.org/</a>)
+I also suggest limiting concurrent builds to 1 in the repo's Travis settings so that builds run sequentially.</p>
+</li>
+<li>
+<p><code>npm install -g travis-encrypt</code> (<a href="https://www.npmjs.com/package/travis-encrypt">https://www.npmjs.com/package/travis-encrypt</a>)</p>
+</li>
+<li>
+<p><code>travis-encrypt -r [repository slug] GITHUB_TOKEN=[personal access token]</code> Note: The repository slug includes your username.</p>
+</li>
+</ol>
+<ol start="5">
+<li>Then setup your .travis.yml file, you need to changes the <code>GITHUB_REPO</code> and <code>secure</code> options.</li>
+</ol>
+<pre><code class="hljs language-yaml"><span class="hljs-attr">language:</span> node_js
+<span class="hljs-attr">node_js:</span>
+<span class="hljs-bullet">  -</span> <span class="hljs-string">"6.9"</span>
+<span class="hljs-attr">sudo:</span> <span class="hljs-literal">false</span>
+<span class="hljs-attr">branches:</span>
+<span class="hljs-attr">  only:</span>
+<span class="hljs-bullet">    -</span> master
+<span class="hljs-attr">install:</span>
+<span class="hljs-bullet">-</span> npm install
+<span class="hljs-attr">script:</span>
+<span class="hljs-bullet">-</span> npm run build
+<span class="hljs-attr">after_success:</span>
+<span class="hljs-bullet">-</span> bash ./travis-deploy.sh
+<span class="hljs-attr">env:</span>
+<span class="hljs-attr">  global:</span>
+<span class="hljs-attr">    - GITHUB_REPO:</span> [repository slug]
+<span class="hljs-attr">    - secure:</span> [result from travis-encrypt command]</code></pre>
+<ol start="6">
+<li>And include the travis-deploy script:</li>
+</ol>
+<pre><code class="hljs language-sh"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-built_in">set</span> -o errexit
+
+<span class="hljs-comment"># Info.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Running deploy script"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Branch: <span class="hljs-variable">$TRAVIS_BRANCH</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Is a Pull Request: <span class="hljs-variable">$TRAVIS_PULL_REQUEST</span>"</span>
+
+<span class="hljs-comment"># Exit if the branch is not the master branch.</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$TRAVIS_BRANCH</span>"</span> != <span class="hljs-string">"master"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"This commit was made against the <span class="hljs-variable">$TRAVIS_BRANCH</span> and not the master. No deploy."</span>
+  <span class="hljs-built_in">exit</span> 0
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment"># Exit if the commit is a pull request.</span>
+<span class="hljs-comment"># We only want to build / deploy when pull requests are merged into master.</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$TRAVIS_PULL_REQUEST</span>"</span> != <span class="hljs-string">"false"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"This commit is a pull request. No deploy."</span>
+  <span class="hljs-built_in">exit</span> 0
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment"># Git config.</span>
+git config --global user.email <span class="hljs-string">"nobody@nobody.org"</span>
+git config --global user.name <span class="hljs-string">"Travis CI"</span>
+
+<span class="hljs-comment"># Build steps (taken care of beforehand)</span>
+
+<span class="hljs-comment"># Deploy.</span>
+<span class="hljs-built_in">cd</span> build
+git init
+git add .
+git commit -m <span class="hljs-string">"Deploy to Github Pages"</span>
+git push --force --quiet <span class="hljs-string">"https://<span class="hljs-variable">${GITHUB_TOKEN}</span>@github.com/<span class="hljs-variable">${GITHUB_REPO}</span>.git"</span> master:gh-pages > /dev/null 2>&#x26;1</code></pre>
+<ol start="7">
+<li>Also, make the <code>gh-pages</code> branch on github before running the above script from travis-ci just to be safe.</li>
+</ol>
+<p>This will deploy to the gh-pages branch on any commits into master as long as the build finishes successfully [even if not done through a pull request in case of emergencies ;)]. On pull requests, travis will still try and build the branch to make sure that succeeds, but it won't push any of the changes to gh-pages branch.</p>
+<p>See this in action in the github repo for this blog at  <a href="https://github.com/tscanlin/blog.timscanlin.net">https://github.com/tscanlin/blog.timscanlin.net</a></p>
+]]></description><link>http://blog.timscanlin.net/posts/2016/automated-deploys-with-travis/</link><guid isPermaLink="true">http://blog.timscanlin.net/posts/2016/automated-deploys-with-travis/</guid><pubDate>Fri, 28 Oct 2016 00:00:00 GMT</pubDate></item><item><title><![CDATA[Login Bash Script]]></title><description><![CDATA[<p>JavaScript is my happy place. It's the language I'm most comfortable in and I really enjoy using it both in the browser and with node.js even though it has a number of <a href="https://www.pubnub.com/blog/kyle-simpson-asks-javascript-wtf/">weird quirks</a>.</p>
+<p>That being said, I do enjoy writing code in other languages as well. My second favorite is probably Python due to its clean and simple syntax. However, I find myself using bash scripts more and more these days due to its versatility and ubiquity. Its great for things like syncing files between directories (rsync ftw!) and performing database maintenance tasks. I'll write articles on those scripts soon, but first let's start simple.</p>
+<p>Today I'm going to walk through a script I recently made to simplify the process of logging into remote servers using ssh. This is super simple and doesn't really do anything fancy. But I think it's a worthwhile starting point if you haven't worked with bash scripting too much. Let me step through it and explain it step by step.</p>
+<p>First you will notice the grayed out lines all start with the '#' sign. This is how comments are written in bash scripts as opposed to JavaScript where '//' are used at the beginning of a line to indicate that the line is commented out. Next, you will see that there is a function called "webhost", this function is declared in much the same way that it would be declared in JavaScript. Inside the function it executes the command "ssh tim@server.com -p 2022", this basically says "ssh into the server 'server.com' as the user 'tim' on port '2022'".</p>
+<pre><code class="hljs language-sh"><span class="hljs-meta">#!/bin/sh</span>
+<span class="hljs-comment"># Login</span>
+<span class="hljs-comment"># version: 1.0</span>
+<span class="hljs-comment"># date: 2015-09-29</span>
+<span class="hljs-comment"># author: Tim Scanlin</span>
+
+<span class="hljs-comment"># CONNECTIONS</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">webhost</span></span>() {
+	ssh tim@server.com -p 2022
+}</code></pre>
+<p>Hope you are with me so far. Next is an example of a multi-line string. This makes use of the <a href="https://en.wikipedia.org/wiki/Here_document">Heredoc</a> syntax in bash. This syntax is available in many other programming languages as well and isn't specific to bash. Its most useful for storing longer form text and banners like this.</p>
+<pre><code class="hljs language-sh"><span class="hljs-comment"># BANNER</span>
+BANNER=$( cat &#x3C;&#x3C; EOF
+
+==================================================
+=                LOGIN UTILITY v1                =
+==================================================
+
+Host: <span class="hljs-variable">$HOSTNAME</span>
+
+EOF
+)</code></pre>
+<p>Finally, there is the main logic of the script. First we echo the $BANNER variable to display it in the console and identify the script, then we check for any passed in parameters. If there aren't any parameters or if the parameter is "-h" then we show how to use the script and some possible input values. Then we prompt the user for some input and read it into the $COMMAND variable. Finally we run the function matching that $COMMAND.</p>
+<pre><code class="hljs language-sh"><span class="hljs-comment"># EXECUTION STARTS HERE</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$BANNER</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">""</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> <span class="hljs-_">-eq</span> 0 ] || [ <span class="hljs-variable">$1</span> == <span class="hljs-string">"-h"</span> ] <span class="hljs-comment">#check for no params or -h</span>
+<span class="hljs-keyword">then</span>
+	<span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage:"</span>
+	<span class="hljs-built_in">echo</span> <span class="hljs-string">"&#x3C;server alias>"</span>
+	<span class="hljs-built_in">echo</span> <span class="hljs-string">""</span>
+	<span class="hljs-built_in">echo</span> <span class="hljs-string">"Options: webhost"</span>
+	<span class="hljs-built_in">echo</span> <span class="hljs-string">""</span>
+
+	<span class="hljs-built_in">echo</span> <span class="hljs-string">"> What server would you like to login to?"</span>
+	<span class="hljs-built_in">read</span> COMMAND
+<span class="hljs-keyword">else</span>
+	COMMAND=<span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-variable">$COMMAND</span>
+
+<span class="hljs-built_in">exit</span>;</code></pre>
+<p>The benefit of having this conditional is that you can run the script from the terminal by typing "login.sh" and it will tell you how to use the script and some possible input values allowing you to continue on from there, or if you already know the available options then you can just run "login.sh webhost" and it will go straight to executing the "webhost" function.</p>
+<p>This is very basic but could be expanded upon to add multiple functions, one for each server you login in to, as well as a starting point for many other scripts with a variety of functionality. Hope you enjoyed this short tutorial!</p>
+<p>Full script below:</p>
+<pre><code class="hljs language-sh"><span class="hljs-meta">#!/bin/sh</span>
+<span class="hljs-comment"># Login</span>
+<span class="hljs-comment"># version: 1.0</span>
+<span class="hljs-comment"># date: 2015-09-29</span>
+<span class="hljs-comment"># author: Tim Scanlin</span>
+
+<span class="hljs-comment"># CONNECTIONS</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">webhost</span></span>() {
+	ssh tim@server.com -p 2022
+}
+
+<span class="hljs-comment"># BANNER</span>
+BANNER=$( cat &#x3C;&#x3C; EOF
+
+==================================================
+=                LOGIN UTILITY v1                =
+==================================================
+
+Host: <span class="hljs-variable">$HOSTNAME</span>
+
+EOF
+)
+
+<span class="hljs-comment"># EXECUTION STARTS HERE</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$BANNER</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">""</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> <span class="hljs-_">-eq</span> 0 ] || [ <span class="hljs-variable">$1</span> == <span class="hljs-string">"-h"</span> ] <span class="hljs-comment">#check for no params or -h</span>
+<span class="hljs-keyword">then</span>
+	<span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage:"</span>
+	<span class="hljs-built_in">echo</span> <span class="hljs-string">"&#x3C;server alias>"</span>
+	<span class="hljs-built_in">echo</span> <span class="hljs-string">""</span>
+	<span class="hljs-built_in">echo</span> <span class="hljs-string">"Options: webhost"</span>
+	<span class="hljs-built_in">echo</span> <span class="hljs-string">""</span>
+
+	<span class="hljs-built_in">echo</span> <span class="hljs-string">"> What server would you like to login to?"</span>
+	<span class="hljs-built_in">read</span> COMMAND
+<span class="hljs-keyword">else</span>
+	COMMAND=<span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-variable">$COMMAND</span>
+
+<span class="hljs-built_in">exit</span>;</code></pre>
+]]></description><link>http://blog.timscanlin.net/posts/2015/login-bash-script/</link><guid isPermaLink="true">http://blog.timscanlin.net/posts/2015/login-bash-script/</guid><pubDate>Wed, 30 Sep 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[Simple d3.js Visualization Tutorial]]></title><description><![CDATA[<p>d3.js is an awesome JavaScript library that's perfect for visualizing data. However, it has a reputation for being a bit tricky to learn; but once you understand the basics, you can actually make some really cool stuff. In this tutorial, we'll be making a visualization of colored wavvy lines using some randomly generated data while also demonstrating how d3 <a href="https://github.com/mbostock/d3/wiki/Transitions#d3_interpolate">interpolation</a> and <a href="https://github.com/mbostock/d3/wiki/Transitions">transitions</a> work. Check out <a href="http://timscanlin.net">timscanlin.net</a> to see the effect.</p>
+<p>I'll assume you have an intermediate understanding of JavaScript and jQuery (If you don't, check out <a href="https://dash.generalassemb.ly/">Dash</a>) and although knowledge of <a href="http://d3js.org/">d3.js</a> isn't required it is recommended that you familiarize yourself with it before starting. Now, head over to my github to <a href="https://github.com/tscanlin/timscanlin-demos">download the tutorial files</a> and let's get started!</p>
+<p>To start off we will setup our empty HTML document with a single svg element with an id of 'background' and a script tag below that. Up in the head we'll add a title, style, and script tags with the script tag's source set to 'd3.min.js'.</p>
+<pre><code class="hljs language-html"><span class="hljs-meta">&#x3C;!DOCTYPE html></span>
+<span class="hljs-tag">&#x3C;<span class="hljs-name">html</span>></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">head</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">title</span>></span>d3 Visualization<span class="hljs-tag">&#x3C;/<span class="hljs-name">title</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">style</span>></span><span class="null"></span><span class="hljs-tag">&#x3C;/<span class="hljs-name">style</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"d3.min.js"</span>></span><span class="null"></span><span class="hljs-tag">&#x3C;/<span class="hljs-name">script</span>></span>
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">head</span>></span>
+
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">body</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">svg</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"background"</span>></span><span class="hljs-tag">&#x3C;/<span class="hljs-name">svg</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">script</span>></span><span class="null"></span><span class="hljs-tag">&#x3C;/<span class="hljs-name">script</span>></span>
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">body</span>></span>
+<span class="hljs-tag">&#x3C;/<span class="hljs-name">html</span>></span></code></pre>
+<p>Then add the following CSS to the style tag you just made. This will make the html document and the svg background have 100% height and width in addition to removing the default fill that path elements have by default.</p>
+<pre><code class="hljs language-css"><span class="hljs-selector-tag">html</span>, <span class="hljs-selector-tag">body</span> {
+  <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+  <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
+  <span class="hljs-attribute">overflow</span>: hidden;
+  <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-selector-id">#background</span> {
+  <span class="hljs-attribute">bottom</span>: <span class="hljs-number">0</span>;
+  <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+  <span class="hljs-attribute">left</span>: <span class="hljs-number">0</span>;
+  <span class="hljs-attribute">position</span>: absolute;
+  <span class="hljs-attribute">right</span>: <span class="hljs-number">0</span>;
+  <span class="hljs-attribute">top</span>: <span class="hljs-number">0</span>;
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;
+}
+
+<span class="hljs-comment">/* SVG styles */</span>
+<span class="hljs-selector-id">#background</span> <span class="hljs-selector-tag">path</span> {
+  <span class="hljs-attribute">fill</span>: none;
+}</code></pre>
+<p>Now, let's get into the javascript. First we are going to declare some variables at the top of the script tag you added in the body.</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">var</span> svg = d3.select(<span class="hljs-string">'#background'</span>),
+    quantity = <span class="hljs-number">7</span>,
+    points = <span class="hljs-number">4</span>;</code></pre>
+<p>Here we are selecting the background svg element we added before, using d3.select(). Then we are declaring two constants, one for the quantity of lines we will have, and another for the number of points going across the screen. You can come back and play with changing these values later.</p>
+<p>Since d3.js operates on data, we are going to need to generate some data to use for this.</p>
+<pre><code class="hljs language-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generateData</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> d3.range(points).map(getCoordinates);
+};
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getCoordinates</span>(<span class="hljs-params">i</span>) </span>{
+  <span class="hljs-keyword">var</span> x = i * (<span class="hljs-number">1</span> / (points - <span class="hljs-number">1</span>)) * <span class="hljs-built_in">window</span>.innerWidth;
+  <span class="hljs-keyword">var</span> y = <span class="hljs-built_in">Math</span>.random() * (<span class="hljs-built_in">window</span>.innerHeight / <span class="hljs-number">2</span>);
+  <span class="hljs-keyword">return</span> {<span class="hljs-attr">x</span>: x, <span class="hljs-attr">y</span>: y};
+};
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getHue</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.random() * <span class="hljs-number">360</span>;
+};
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getStroke</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> (<span class="hljs-built_in">Math</span>.random()) * <span class="hljs-number">3</span>;
+};</code></pre>
+<p>The first function, generateData(), is just using d3.range() to make an array, and .map() on that to call the getCoordinates() function for each of the points across the screen.</p>
+<p>Then, getCoordinates() is spacing the points out evenly across the window's width, and making their high somewhere in the top half of the window and using Math.random(). This is what gives the lines their waviness.</p>
+<p>The last two, getHue() and getStroke() are just randomly picking numbers for hue and stroke thickness respectively.</p>
+<p>Now lets start getting into interpolation.. it's actually not as difficult to understand as you might think. You know what <em>extrapolation</em> is right? <a href="http://en.wikipedia.org/wiki/Extrapolation">Extrapolation</a> is generally estimating and looking beyond or outside what has happened to try and predict what might happen, whereas <a href="http://en.wikipedia.org/wiki/Interpolation">Interpolation</a> is looking inside to find all of the possible data points between a set of known data points.</p>
+<p>So now that you understand what interpolation means, lets get into an example.</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">var</span> line = d3.svg.line()
+  .interpolate(<span class="hljs-string">'cardinal'</span>)
+  .x(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.x; })
+  .y(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.y; });</code></pre>
+<p>In the above code, we are basically creating a line constructor that tells d3.js how our line data is stored (using the same x and y properties from our getCoordinates generator before). This is also using the 'cardinal' line interpolation, to read more about d3.js line interpolation you should definitely check out this article from <a href="https://www.dashingd3js.com/svg-paths-and-d3js">Dashing d3.js</a>.</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">var</span> paths = svg.selectAll(<span class="hljs-string">'path'</span>)
+  .data(d3.range(quantity))
+  .enter()
+  .append(<span class="hljs-string">'path'</span>);</code></pre>
+<p>Now, we use the svg selection from before to select all of the path elements (even though they don't really exist yet, kinda weird, but you'll get used to it). and set the paths data() using d3.range(quantity) to return an array of 1 to 7 for each path element to be added. And finally .enter() and .append('path') to add the 7 path elements to the svg. If you reload the page now it should still look blank, but examine the source code and you should see 7 path elements in your svg element.</p>
+<p>Now, let's make one of the lines appear by adding data to one of the path elements.</p>
+<pre><code class="hljs language-js">d3.select(paths[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>])
+  .data([generateData()])
+  .attr(<span class="hljs-string">'d'</span>, line)
+  .attr(<span class="hljs-string">'stroke'</span>, <span class="hljs-string">'hsla('</span>+getHue()+<span class="hljs-string">', 80%, 50%, 0.5)'</span>)
+  .attr(<span class="hljs-string">'stroke-width'</span>, getStroke());</code></pre>
+<p>Here, we are selecting one of the path elements and generating data for it. In addition to the path's data points, we are also generating a hue and stroke for it. Reload the page and you should see a single colored line. This handles one of the lines, now let's do the rest of them, this is where it all comes together. Replace the code from above with what's below.</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">var</span> transition = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">var</span> dataInterpolate = d3.interpolate(generateData(), generateData()),
+      hueInterpolate = d3.interpolate(getHue(), getHue()),
+      strokeInterpolate = d3.interpolate(getStroke(), getStroke());
+
+  paths.each(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d,i</span>) </span>{
+    <span class="hljs-keyword">var</span> data = dataInterpolate(i*(<span class="hljs-number">1</span>/quantity)),
+        color = hueInterpolate(i*(<span class="hljs-number">1</span>/quantity)),
+        stroke = strokeInterpolate(i*(<span class="hljs-number">1</span>/quantity));
+
+    d3.select(<span class="hljs-keyword">this</span>)
+      .data([data])
+      .transition()
+      .duration(<span class="hljs-number">3000</span>)
+      .ease(<span class="hljs-string">'linear'</span>)
+      .attr(<span class="hljs-string">'d'</span>, line)
+      .attr(<span class="hljs-string">'stroke'</span>, <span class="hljs-string">'hsla('</span>+color+<span class="hljs-string">', 80%, 50%, 0.5)'</span>)
+      .attr(<span class="hljs-string">'stroke-width'</span>, stroke);
+  });
+};</code></pre>
+<p>Boom! Are you confused now? Not only does d3.js support a bunch of different types of line interpolation, but it also supports <a href="https://github.com/mbostock/d3/wiki/Transitions#d3_interpolate">many other types of interpolation</a> as well, between a huge variety of data types (as long as they're the same type) including, colors, numbers, strings, and even arbitrary objects. Here we are interpolating all of the things that we want to change across the different lines (datapoints, hue, and stroke).</p>
+<p>Then we use an each loop with the paths selection that we made earlier to set the data, color, and stroke for each of the lines in a way that they blend between each line instance.</p>
+<pre><code class="hljs language-js">transition();
+
+<span class="hljs-built_in">document</span>.onclick = transition;
+<span class="hljs-built_in">document</span>.ontouchstart = transition;</code></pre>
+<p>And finally, we call the transition function to make our initial lines appear and then assign it to execute again with clicks or touches to the document.</p>
+<p>Hope you enjoyed the tutorial! <a href="http://tscanlin.github.io/timscanlin-demos/visualization.html">Check out the final product</a>.</p>
+<p>Or go get the <a href="https://github.com/tscanlin/timscanlin-demos">source on Github</a>.</p>
+]]></description><link>http://blog.timscanlin.net/posts/2014/Simple-d3-js-visualization/</link><guid isPermaLink="true">http://blog.timscanlin.net/posts/2014/Simple-d3-js-visualization/</guid><pubDate>Sat, 30 Aug 2014 00:00:00 GMT</pubDate></item><item><title><![CDATA[5 Tips for New Web Developers]]></title><description><![CDATA[<p>However, I enjoy learning, and bit by bit, I started reading and going through tutorials to understand the basics of coding. This got me started, but in order to really solidify what I learned, I knew I had to actually make something real. I started out making a few small business websites for friends and family and those first few websites ended up changing the entire course of my career. They got me a job offer to become a web developer at <a href="http://www.achievers.com/">Achievers</a>, and since then I've moved on to become a UI Engineer at <a href="https://www.optimizely.com/">Optimizely</a>, but I'll never forget the following tips that helped me on my journey to where I am today.</p>
+<h4 id="1-build-real-stuff"><a href="#1-build-real-stuff" class="phenomic-HeadingAnchor">#</a>1. Build real stuff</h4>
+<p>Once you've set out and decided that programming really is something you want to learn, where do you start? You can read lots of books or go through <a href="http://www.bento.io/">online tutorials</a>, and those are a great foundation, but they only get you so far. At a certain point you need to start building real stuff. As a starting point I think a personal website or blog is a good way to go. But maybe also a simple app that's useful to you? The possibilities are endless.</p>
+<h4 id="2-google-is-your-friend"><a href="#2-google-is-your-friend" class="phenomic-HeadingAnchor">#</a>2. Google is your friend</h4>
+<p>If you run into a problem, before you give up and ask your nerd friends, think of this: there are billions of people around the world with internet access, so you have a decent chance that someone somewhere may have run into a similar issue before, and maybe they already solved it. There are also tons of examples out there to look at and gather ideas from. It's worth a <a href="http://www.awwwards.com/websites/single-page/">look</a>.</p>
+<h4 id="3-breakdown-problems"><a href="#3-breakdown-problems" class="phenomic-HeadingAnchor">#</a>3. Breakdown problems</h4>
+<p>One of the most difficult tasks in any challenge is breaking it down, but this is especially true for coding. If a task seems daunting, figure out some of the smaller pieces you need to do in order to accomplish a greater goal. Don't try to do too much at once or you can easily get overwhelmed, and don't worry about planning every detail ahead of time because you will likely need to adapt and change things as you go.</p>
+<h4 id="4-set-small-goals"><a href="#4-set-small-goals" class="phenomic-HeadingAnchor">#</a>4. Set [small] goals</h4>
+<p>Rome wasn't built in a day, and learning coding isn't something that happens overnight, so it's important to set small achievable goals along the way. These mini achievements are great for staying motivated as you go, but they also offer a sense of progress and help you to more easily track how you're doing.</p>
+<h4 id="5-dont-give-up"><a href="#5-dont-give-up" class="phenomic-HeadingAnchor">#</a>5. Don't give up</h4>
+<p>Learning to code may seem challenging and it is, but it's totally doable. There are many times I've felt in over my head when I've taken on coding challenges, but perseverance should never be underestimated. As I mentioned before, start small and take baby steps, but also reach out if you need help. I'd recommend using google or posting questions on <a href="http://stackoverflow.com/">stackoverflow</a> which are both terrific resources that I use all the time. Although sometimes it can be beneficial to simply take a break. In the past, when I've been stuck on something sometimes I'll sleep and after a good night of rest, the solution will be obvious in the morning.</p>
+]]></description><link>http://blog.timscanlin.net/posts/2014/Tips-for-New-Web-Developers/</link><guid isPermaLink="true">http://blog.timscanlin.net/posts/2014/Tips-for-New-Web-Developers/</guid><pubDate>Fri, 18 Jul 2014 00:00:00 GMT</pubDate></item></channel></rss>
